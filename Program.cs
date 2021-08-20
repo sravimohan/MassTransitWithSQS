@@ -20,11 +20,26 @@ namespace MassTransitWithSQS
                     {
                         x.AddConsumer<MessageConsumer>();
 
-                        x.UsingInMemory((context, cfg) =>
+                        x.UsingAmazonSqs((context, cfg) =>
                         {
+                            const string awsRegion = "ap-southeast-2";
+                            cfg.Host(awsRegion, h =>
+                            {
+                                // Set the AWS Access key and Secrect here if its not configured in the environment
+                                // h.AccessKey("your-iam-access-key");
+                                // h.SecretKey("your-iam-secret-key");
+
+                                // optional - specify a scope for all queues
+                                h.Scope("dev");
+
+                                // optional - scope topics as well
+                                h.EnableScopedTopics();
+                            });
+
                             cfg.ConfigureEndpoints(context);
                         });
                     });
+
                     services.AddMassTransitHostedService(true);
 
                     services.AddHostedService<MessagePublisher>();
