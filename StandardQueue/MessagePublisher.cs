@@ -5,7 +5,7 @@ using MassTransit;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace MassTransitWithSQS
+namespace MassTransitWithSQS.StandardQueue
 {
     public class MessagePublisher : BackgroundService
     {
@@ -23,11 +23,12 @@ namespace MassTransitWithSQS
             while (!stoppingToken.IsCancellationRequested)
             {
                 var text = $"The time is {DateTimeOffset.Now}";
-                _logger.LogInformation("Publishing Text: {text}", text);
+                _logger.LogInformation("Publishing Message: {text}", text);
 
-                await _bus.Publish(new Message { Text = text }, stoppingToken);
+                var message = new Message { Text = text };
+                await _bus.Publish(message, stoppingToken);
 
-                await Task.Delay(1000, stoppingToken);
+                await Task.Delay(5000, stoppingToken);
             }
         }
     }

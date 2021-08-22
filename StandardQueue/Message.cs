@@ -1,4 +1,4 @@
-﻿namespace MassTransitWithSQS
+﻿namespace MassTransitWithSQS.StandardQueue
 {
     public class Message
     {
