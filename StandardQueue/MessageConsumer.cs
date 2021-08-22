@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
-namespace MassTransitWithSQS
+namespace MassTransitWithSQS.StandardQueue
 {
     public class MessageConsumer : IConsumer<Message>
     {
@@ -15,7 +15,7 @@ namespace MassTransitWithSQS
 
         public Task Consume(ConsumeContext<Message> context)
         {
-            _logger.LogInformation("Received Text: {Text}", context.Message.Text);
+            _logger.LogInformation("Received Message: {Text}", context.Message.Text);
 
             return Task.CompletedTask;
         }
