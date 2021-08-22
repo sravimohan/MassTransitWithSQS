@@ -1,5 +1,11 @@
 # MassTransit With Amazon SQS FIFO Queue
+## Benefits of FIFO (First In, First Out)
+- Strictly-preserved message ordering
+- Exactly-once message delivery
+- High throughput, up to 300 publishes/second
+- Subscription protocols: SQS
 
+## Configuration for FIFO
 - Set Entity Name of the FIFO Message with postfix .fifo
 - Set the Publish topic attributes
 
