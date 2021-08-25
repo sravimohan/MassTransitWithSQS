@@ -27,7 +27,7 @@ namespace MassTransitWithSQS
                               const string awsRegion = "ap-southeast-2";
                               cfg.Host(awsRegion, h =>
                               {
-                                // Set the AWS Access key and Secrect here if its not configured in the environment
+                                // optional - set the AWS Access key and Secrect here if its not configured in the environment
                                 // h.AccessKey("your-iam-access-key");
                                 // h.SecretKey("your-iam-secret-key");
 
@@ -38,19 +38,25 @@ namespace MassTransitWithSQS
                                 // h.EnableScopedTopics();
                               });
 
+                              //optional - override the entity name for standard Topic Name
                               cfg.Message<Message>(x =>
                               {
                                   x.SetEntityName("message");
                               });
 
+                              //required - override the entity name with .fifo postfix for FIFO Topic Name
                               cfg.Message<FifoMessage>(x =>
                               {
                                   x.SetEntityName("message.fifo");
                               });
 
+                              
                               cfg.Publish<FifoMessage>(x =>
                               {
+                                  //required - set FIFO Topic attributes
                                   x.TopicAttributes["FifoTopic"] = "true";
+
+                                  //optional Content Based Deduplication flag
                                   x.TopicAttributes.Add("ContentBasedDeduplication", "true");
                               });
 
